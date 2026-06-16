@@ -1,7 +1,6 @@
 {{ template "widget-base.html" . }}
 
-{{- define "widget-content" }}
-<ul class="list list-gap-14 collapsible-container" data-collapse-after="{{ .CollapseAfter }}">
+{{- define "videos-vertical-list-items" }}
     {{- range .Videos }}
     <li class="flex thumbnail-parent gap-10 items-center">
         <img class="video-horizontal-list-thumbnail thumbnail" loading="lazy" src="{{ .ThumbnailUrl }}" alt="">
@@ -16,5 +15,19 @@
         </div>
     </li>
     {{- end }}
+{{- end }}
+
+{{- define "widget-content" }}
+{{ if and .Animate (gt (len .Videos) .CollapseAfter) }}
+<div class="scroll-animation scroll-animation-vertical scroll-animation-list" style="--collapse-after: {{ .CollapseAfter }}; --item-height: 4.5rem; --scroll-duration: calc({{ len .Videos }} * 2.5s);">
+    <div class="scroll-animation-track">
+        <ul class="list list-gap-14">{{ template "videos-vertical-list-items" . }}</ul>
+        <ul class="list list-gap-14">{{ template "videos-vertical-list-items" . }}</ul>
+    </div>
+</div>
+{{ else }}
+<ul class="list list-gap-14 collapsible-container" data-collapse-after="{{ .CollapseAfter }}">
+    {{ template "videos-vertical-list-items" . }}
 </ul>
+{{ end }}
 {{- end }}

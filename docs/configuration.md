@@ -771,12 +771,16 @@ Example:
 | preserve-order | bool | no | false |
 | single-line-titles | boolean | no | false |
 | collapse-after | integer | no | 5 |
+| animate | boolean | no | false |
 
 ##### `limit`
 The maximum number of articles to show.
 
 ##### `collapse-after`
 How many articles are visible before the "SHOW MORE" button appears. Set to `-1` to never collapse.
+
+##### `animate`
+When set to `true`, the widget's items will continuously scroll. Vertical styles scroll from bottom to top, horizontal styles scroll from right to left. The number of items visible at once is controlled by `collapse-after`. The animation pauses while the mouse is over the widget and resumes when the mouse leaves.
 
 ##### `preserve-order`
 When set to `true`, the order of the articles will be preserved as they are in the feeds. Useful if a feed uses its own sorting order which denotes the importance of the articles. If you use this property while having a lot of feeds, it's recommended to set a `limit` to each individual feed since if the first defined feed has 15 articles, the articles from the second feed will start after the 15th article in the list.
@@ -874,6 +878,7 @@ Preview:
 | collapse-after-rows | integer | no | 4 |
 | include-shorts | boolean | no | false |
 | video-url-template | string | no | https://www.youtube.com/watch?v={VIDEO-ID} |
+| animate | boolean | no | false |
 
 ##### `channels`
 A list of channels IDs.
@@ -910,6 +915,9 @@ Specify the number of videos to show when using the `vertical-list` style before
 
 ##### `collapse-after-rows`
 Specify the number of rows to show when using the `grid-cards` style before the "SHOW MORE" button appears.
+
+##### `animate`
+When set to `true`, the widget's items will continuously scroll. The `vertical-list` and `grid-cards` styles scroll from bottom to top; the `horizontal-cards` style scrolls from right to left. The number of visible items is controlled by `collapse-after` (for `vertical-list` and `horizontal-cards`) or `collapse-after-rows` (for `grid-cards`). The animation pauses while the mouse is over the widget.
 
 ##### `style`
 Used to change the appearance of the widget. Possible values are `horizontal-cards`, `vertical-list` and `grid-cards`.

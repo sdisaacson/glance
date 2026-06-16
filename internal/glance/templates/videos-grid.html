@@ -2,12 +2,29 @@
 
 {{ define "widget-content-classes" }}widget-content-frameless{{ end }}
 
-{{ define "widget-content" }}
-<div class="cards-grid collapsible-container" data-collapse-after-rows="{{ .CollapseAfterRows }}">
+{{ define "videos-grid-card" }}
     {{ range .Videos }}
     <div class="card widget-content-frame thumbnail-parent">
         {{ template "video-card-contents" . }}
     </div>
     {{ end }}
+{{ end }}
+
+{{ define "widget-content" }}
+{{ if and .Animate (gt (len .Videos) .CollapseAfterRows) }}
+<div class="scroll-animation scroll-animation-vertical scroll-animation-grid" style="--collapse-after-rows: {{ .CollapseAfterRows }}; --row-height: 15rem; --scroll-duration: 30s;">
+    <div class="scroll-animation-track">
+        <div class="cards-grid">
+            {{ template "videos-grid-card" . }}
+        </div>
+        <div class="cards-grid">
+            {{ template "videos-grid-card" . }}
+        </div>
+    </div>
 </div>
+{{ else }}
+<div class="cards-grid collapsible-container" data-collapse-after-rows="{{ .CollapseAfterRows }}">
+    {{ template "videos-grid-card" . }}
+</div>
+{{ end }}
 {{ end }}

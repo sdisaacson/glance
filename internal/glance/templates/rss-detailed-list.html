@@ -1,7 +1,6 @@
 {{ template "widget-base.html" . }}
 
-{{ define "widget-content" }}
-<ul class="list list-gap-24 collapsible-container" data-collapse-after="{{ .CollapseAfter }}">
+{{ define "rss-detailed-list-items" }}
     {{ range .Items }}
     <li class="flex gap-15 items-start row-reverse-on-mobile thumbnail-parent">
         <div class="thumbnail-container rss-detailed-thumbnail">
@@ -36,5 +35,19 @@
     {{ else }}
     <li>{{ .NoItemsMessage }}</li>
     {{ end }}
+{{ end }}
+
+{{ define "widget-content" }}
+{{ if and .Animate (gt (len .Items) .CollapseAfter) }}
+<div class="scroll-animation scroll-animation-vertical scroll-animation-list" style="--collapse-after: {{ .CollapseAfter }}; --item-height: 9rem; --scroll-duration: calc({{ len .Items }} * 2.5s);">
+    <div class="scroll-animation-track">
+        <ul class="list list-gap-24">{{ template "rss-detailed-list-items" . }}</ul>
+        <ul class="list list-gap-24">{{ template "rss-detailed-list-items" . }}</ul>
+    </div>
+</div>
+{{ else }}
+<ul class="list list-gap-24 collapsible-container" data-collapse-after="{{ .CollapseAfter }}">
+    {{ template "rss-detailed-list-items" . }}
 </ul>
+{{ end }}
 {{ end }}

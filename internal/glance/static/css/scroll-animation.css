@@ -1,0 +1,84 @@
+.scroll-animation {
+    overflow: hidden;
+    position: relative;
+}
+
+.scroll-animation-track {
+    display: flex;
+}
+
+.scroll-animation-vertical .scroll-animation-track {
+    flex-direction: column;
+    animation: scroll-animation-vertical var(--scroll-duration, 30s) linear infinite;
+}
+
+.scroll-animation-horizontal .scroll-animation-track {
+    flex-direction: row;
+    animation: scroll-animation-horizontal var(--scroll-duration, 30s) linear infinite;
+}
+
+.widget:hover .scroll-animation-track {
+    animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scroll-animation-track {
+        animation: none;
+    }
+}
+
+@keyframes scroll-animation-vertical {
+    from { transform: translateY(0); }
+    to { transform: translateY(-50%); }
+}
+
+@keyframes scroll-animation-horizontal {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+/* Vertical list viewports show exactly collapse-after items */
+.scroll-animation-vertical.scroll-animation-list {
+    height: calc(var(--collapse-after) * var(--item-height));
+}
+
+.scroll-animation-vertical.scroll-animation-list .list {
+    margin: 0;
+}
+
+.scroll-animation-vertical.scroll-animation-list .list > li {
+    height: var(--item-height);
+    overflow: hidden;
+    margin: 0;
+}
+
+.scroll-animation-vertical.scroll-animation-list .list > li:not(:first-child) {
+    margin-top: 0;
+}
+
+/* Horizontal card viewports show exactly collapse-after cards */
+.scroll-animation-horizontal.scroll-animation-cards .scroll-animation-track {
+    width: 200%;
+}
+
+.scroll-animation-horizontal.scroll-animation-cards .cards-horizontal {
+    width: 50%;
+    flex-shrink: 0;
+    overflow-x: visible;
+    padding-bottom: 0;
+    scrollbar-width: none;
+}
+
+.scroll-animation-horizontal.scroll-animation-cards .cards-horizontal .card {
+    flex-shrink: 0;
+    width: calc((100% - (var(--collapse-after) - 1) * var(--cards-gap)) / var(--collapse-after));
+}
+
+/* Grid viewports show exactly collapse-after-rows rows */
+.scroll-animation-vertical.scroll-animation-grid {
+    height: calc(var(--collapse-after-rows) * var(--row-height));
+}
+
+.scroll-animation-vertical.scroll-animation-grid .cards-grid {
+    grid-auto-rows: var(--row-height);
+}

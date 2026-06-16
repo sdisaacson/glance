@@ -31,6 +31,7 @@ type videosWidget struct {
 	Playlists         []string  `yaml:"playlists"`
 	Limit             int       `yaml:"limit"`
 	IncludeShorts     bool      `yaml:"include-shorts"`
+	Animate           bool      `yaml:"animate"`
 }
 
 func (widget *videosWidget) initialize() error {

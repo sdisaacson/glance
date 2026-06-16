@@ -2,14 +2,31 @@
 
 {{ define "widget-content-classes" }}widget-content-frameless{{ end }}
 
+{{ define "videos-horizontal-card" }}
+    {{ range .Videos }}
+    <div class="card widget-content-frame thumbnail-parent">
+        {{ template "video-card-contents" . }}
+    </div>
+    {{ end }}
+{{ end }}
+
 {{ define "widget-content" }}
-<div class="carousel-container">
-    <div class="cards-horizontal carousel-items-container">
-        {{ range .Videos }}
-        <div class="card widget-content-frame thumbnail-parent">
-            {{ template "video-card-contents" . }}
+{{ if and .Animate (gt (len .Videos) .CollapseAfter) }}
+<div class="scroll-animation scroll-animation-horizontal scroll-animation-cards" style="--collapse-after: {{ .CollapseAfter }}; --scroll-duration: calc({{ len .Videos }} * 2.5s);">
+    <div class="scroll-animation-track">
+        <div class="cards-horizontal">
+            {{ template "videos-horizontal-card" . }}
         </div>
-        {{ end }}
+        <div class="cards-horizontal">
+            {{ template "videos-horizontal-card" . }}
+        </div>
     </div>
 </div>
+{{ else }}
+<div class="carousel-container">
+    <div class="cards-horizontal carousel-items-container">
+        {{ template "videos-horizontal-card" . }}
+    </div>
+</div>
+{{ end }}
 {{ end }}

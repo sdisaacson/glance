@@ -1,7 +1,6 @@
 {{ template "widget-base.html" . }}
 
-{{ define "widget-content" }}
-<ul class="list list-gap-14 collapsible-container{{ if .SingleLineTitles }} single-line-titles{{ end }}" data-collapse-after="{{ .CollapseAfter }}">
+{{ define "rss-list-items" }}
     {{ range .Items }}
     <li>
         <a class="title size-title-dynamic color-primary-if-not-visited" href="{{ .Link }}" target="_blank" rel="noreferrer">{{ .Title }}</a>
@@ -15,5 +14,19 @@
     {{ else }}
     <li>{{ .NoItemsMessage }}</li>
     {{ end }}
+{{ end }}
+
+{{ define "widget-content" }}
+{{ if and .Animate (gt (len .Items) .CollapseAfter) }}
+<div class="scroll-animation scroll-animation-vertical scroll-animation-list" style="--collapse-after: {{ .CollapseAfter }}; --item-height: 4.5rem; --scroll-duration: calc({{ len .Items }} * 2.5s);">
+    <div class="scroll-animation-track">
+        <ul class="list list-gap-14{{ if .SingleLineTitles }} single-line-titles{{ end }}">{{ template "rss-list-items" . }}</ul>
+        <ul class="list list-gap-14{{ if .SingleLineTitles }} single-line-titles{{ end }}">{{ template "rss-list-items" . }}</ul>
+    </div>
+</div>
+{{ else }}
+<ul class="list list-gap-14 collapsible-container{{ if .SingleLineTitles }} single-line-titles{{ end }}" data-collapse-after="{{ .CollapseAfter }}">
+    {{ template "rss-list-items" . }}
 </ul>
+{{ end }}
 {{ end }}
